@@ -14,7 +14,8 @@ const jwt = require('jsonwebtoken');
 
 ### 토큰
 
-![Untitled](jwt%205bc86376819f403eaf2b45f9bbe9526b/Untitled.png)
+![images_neity16_post_cfdcc3e9-29ba-4e90-9916-2e9949cbba9e_스크린샷 2020-12-11 오전 12 11 45](https://github.com/likeprograming1/login_jwtStudy/assets/89185550/c4cf13f7-b348-4aca-aad7-4e3e332ac6a7)
+
 
 - **HEADER(헤더)**
   - **typ : 토큰의 타입을 지정(JWT)**
