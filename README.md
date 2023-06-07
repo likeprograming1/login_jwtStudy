@@ -1,70 +1,60 @@
-# Getting Started with Create React App
+# jwt
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+jet 설치
 
-## Available Scripts
+```solidity
+$ npm install jsonwebtoken
+```
 
-In the project directory, you can run:
+가져오기
 
-### `npm start`
+```solidity
+const jwt = require('jsonwebtoken');
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 토큰
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+![Untitled](jwt%205bc86376819f403eaf2b45f9bbe9526b/Untitled.png)
 
-### `npm test`
+- **HEADER(헤더)**
+  - **typ : 토큰의 타입을 지정(JWT)**
+  - **alg : 해싱 알고리즘을 지정(보통 HMAC SHA256 / RSA 사용)**
+- **PAYLOAD(내용)** - **사용되는 정보의 한 조각을 클레임(claim)**이라고 함
+- **VERIFY SIGNATURE(서명)**: **header + payload 정보를 비밀키로 해쉬를 하여 생성!** (즉, **payload가 바뀌어도 이 값에 영향을 주기 때문에 보안성이 높아짐!**)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 토큰생성
 
-### `npm run build`
+공식 : jwt.sign(payload, secretKey, option)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```jsx
+const accessToken = jwt.sign({
+        id : userInfo.id,
+        username : userInfo.username,
+        email: userInfo.email,
+      }, process.env.ACCESS_SECRET, {
+        expiresIn : '1m',
+        issuer : "About Tech",
+      });
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+payload = {
+        id : userInfo.id,
+        username : userInfo.username,
+        email: userInfo.email,
+      }
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+secretKey = process.env.ACCESS_SECRET //env파일에 있는 ACCESS_SECRET의 값
 
-### `npm run eject`
+option = {
+        expiresIn : '1m',
+        issuer : "About Tech",
+      }
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+/* 모든 등록된 클레임은 선택적으로 사용! 필수가 아님! */
+iss : 토큰 발급자 (issuer)
+sub : 토큰 제목 (subject)
+aud : 토큰 대상자 (audience)
+exp : 토큰의 만료시간 (expiration) / 형식은 NumericDate
+nbf : Not Before 을 의미 / 토큰의 활성 날짜
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **jwt에서 사용 할 함수**는 **jwt.sign --> 토큰 발급, jwt.verify --> 토큰 인증(확인)**
